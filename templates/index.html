@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Career Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-950 text-white min-h-screen flex items-center justify-center">
+
+<div class="w-full max-w-xl bg-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-800">
+
+    <h1 class="text-3xl font-bold text-center mb-6 text-blue-400">
+        AI Career Simulator
+    </h1>
+
+    <div class="text-center mb-4">
+        <p class="text-gray-400">Level</p>
+        <p class="text-5xl font-bold text-yellow-400">
+            {{ progress.level }}
+        </p>
+    </div>
+
+    <!-- XP Bar -->
+    <div class="mb-4">
+        <div class="w-full bg-gray-700 rounded-full h-6 overflow-hidden">
+            <div 
+                class="bg-gradient-to-r from-green-400 to-blue-500 h-6 rounded-full transition-all duration-500"
+                style="width: {{ progress.progress_percent }}%;">
+            </div>
+        </div>
+
+        <p class="text-center text-sm text-gray-300 mt-2">
+            {{ progress.current_xp }} / {{ progress.xp_needed }} XP
+            ({{ progress.progress_percent }}%)
+        </p>
+    </div>
+
+    <!-- Buttons -->
+    <div class="grid grid-cols-2 gap-4 mt-6">
+
+        <a href="/add/frontend/20"
+           class="bg-green-600 hover:bg-green-500 p-3 rounded-lg text-center">
+            Frontend Task (+20 XP)
+        </a>
+
+        <a href="/add/backend/25"
+           class="bg-blue-600 hover:bg-blue-500 p-3 rounded-lg text-center">
+            Backend Task (+25 XP)
+        </a>
+
+        <a href="/add/ai/40"
+           class="bg-purple-600 hover:bg-purple-500 p-3 rounded-lg text-center">
+            AI Challenge (+40 XP)
+        </a>
+
+        <a href="/add/devops/35"
+           class="bg-orange-600 hover:bg-orange-500 p-3 rounded-lg text-center">
+            DevOps Pipeline (+35 XP)
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
