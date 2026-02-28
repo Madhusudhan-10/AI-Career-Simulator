@@ -29,14 +29,14 @@ def create_demo_user():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM users WHERE username = ?", ("demo",))
+    cursor.execute("SELECT * FROM users WHERE id = 1")
     user = cursor.fetchone()
 
     if not user:
-        cursor.execute("""
-        INSERT INTO users (username)
-        VALUES (?)
-        """, ("demo",))
-        conn.commit()
+        cursor.execute(
+            "INSERT INTO users (id, name, track, total_xp) VALUES (?, ?, ?, ?)",
+            (1, "Madhu", "Full Stack", 0)
+        )
 
+    conn.commit()
     conn.close()

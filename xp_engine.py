@@ -1,14 +1,15 @@
 import sqlite3
 from database import DB_NAME
 
-
-# ---------------------------
-# LEVEL CALCULATION
-# ---------------------------
+# -----------------------------------
+# LEVEL CALCULATION SYSTEM
+# -----------------------------------
 
 def calculate_level(total_xp):
     level = 1
     xp_needed = 100
+
+    total_xp = int(total_xp)
 
     while total_xp >= xp_needed:
         total_xp -= xp_needed
@@ -21,7 +22,8 @@ def calculate_level(total_xp):
 def current_level_progress(total_xp):
     level = 1
     xp_needed = 100
-    remaining_xp = total_xp
+
+    remaining_xp = int(total_xp)
 
     while remaining_xp >= xp_needed:
         remaining_xp -= xp_needed
@@ -38,11 +40,11 @@ def current_level_progress(total_xp):
     }
 
 
-# ---------------------------
-# XP UPDATE FUNCTION
-# ---------------------------
+# -----------------------------------
+# XP UPDATE SYSTEM
+# -----------------------------------
 
-def add_xp(user_id, xp_amount, track=None):
+def add_xp(user_id, xp_amount):
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
@@ -53,27 +55,20 @@ def add_xp(user_id, xp_amount, track=None):
         conn.close()
         return None
 
-    current_total_xp = result[0]
-    new_total_xp = current_total_xp + xp_amount
+    current_xp = int(result[0])
+    new_total = current_xp + int(xp_amount)
 
-    new_level = calculate_level(new_total_xp)
+    print("USER ID:", user_id)
+    print("CURRENT XP:", current_xp)
+    print("XP ADDING:", xp_amount)
+    print("NEW TOTAL:", new_total)
 
-    # Update total XP + level
-    cursor.execute("""
-        UPDATE users 
-        SET total_xp = ?, level = ?
-        WHERE id = ?
-    """, (new_total_xp, new_level, user_id))
-
-    # Update specific track XP
-    if track:
-        cursor.execute(f"""
-            UPDATE users
-            SET {track}_xp = {track}_xp + ?
-            WHERE id = ?
-        """, (xp_amount, user_id))
+    cursor.execute(
+        "UPDATE users SET total_xp = ? WHERE id = ?",
+        (new_total, user_id)
+    )
 
     conn.commit()
     conn.close()
 
-    return current_level_progress(new_total_xp)
+    return new_total
